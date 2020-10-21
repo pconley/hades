@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+import TodoContainer from "./components/TodoContainer"
+
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
@@ -105,6 +107,8 @@ class Game extends React.Component {
 
     return (
       <div className="game">
+        <h1>Tic-Tac-Toe</h1>
+        <br />
         <div className="game-board">
           <Board
             squares={current.squares}
@@ -146,3 +150,10 @@ ReactDOM.render(
   <Game />,
   document.getElementById('root')
 );
+
+ReactDOM.render(
+  <React.Fragment>
+    <Game />
+    <TodoContainer />
+  </React.Fragment>,
+  document.getElementById("root"))
