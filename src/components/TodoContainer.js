@@ -43,7 +43,6 @@ const TodoContainer = props => {
   }
 
   useEffect(() => {
-    console.log("test run")
     axios
       .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
       .then(response => setTodos(response.data))
