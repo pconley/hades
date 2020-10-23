@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react"
-import TodosList from "./TodosList"
-import Header from "./Header"
-import InputTodo from "./InputTodo"
 
 import axios from "axios"
 import uuid from "uuid"
 
-import "../App.css"
+import Header from "./Header"
+import TodosList from "./TodosList"
+import InputTodo from "./InputTodo"
+
+import "./index.css"
 
 const TodoContainer = props => {
   const [todos, setTodos] = useState([])
@@ -24,7 +25,7 @@ const TodoContainer = props => {
     setShow(!show)
   }
 
-  const delTodo = id => {
+  const deleteTodoItem = id => {
     setTodos([
       ...todos.filter(todo => {
         return todo.id !== id
@@ -55,7 +56,7 @@ const TodoContainer = props => {
       <TodosList
         todos={todos}
         handleChange={handleChange}
-        handleDelete={delTodo}
+        handleDelete={deleteTodoItem}
       />
     </div>
   )
