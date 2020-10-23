@@ -1,35 +1,41 @@
-import React, { Component } from "react"
+import React, { useEffect, useRef } from "react"
 
-class Header extends Component {
+const Header = props => {
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.headerSpan !== this.props.headerSpan) {
-      const x = Math.floor(Math.random() * 256);
-      const y = Math.floor(Math.random() * 256);
-      const z = Math.floor(Math.random() * 256);
-      const bgColor = "rgb(" + x + "," + y + "," + z + ")";
-      // console.log("props change", bgColor);
+  const headerStyle = {
+    padding: "20px 0",
+    lineHeight: "2em",
+  }
+
+  const isInitialMount = useRef(true); // set initial value
+  console.log(isInitialMount);
+    
+  useEffect(() => {
+    if (isInitialMount.current) {
+      // current is true on the first call from the
+      // initial mount call above
+      isInitialMount.current = false;
+    } else {
+      var x = Math.floor(Math.random() * 256)
+      var y = Math.floor(Math.random() * 256)
+      var z = Math.floor(Math.random() * 256)
+      var bgColor = "rgb(" + x + "," + y + "," + z + ")"
+
       document.getElementById("inH1").innerHTML = "clicked";
       document.getElementById("inH1").style.backgroundColor = bgColor;
     }
-  }
-
-  render() {
-    const headerStyle = {
-      padding: "20px 0",
-      lineHeight: "2em",
-    }
-    return (
-      <header style={headerStyle}>
-        <h1 style={{ fontSize: "25px", marginBottom: "15px" }}>
-          Simple Todo App <span id="inH1"></span>
-        </h1>
-        <p style={{ fontSize: "19px" }}>
-          Please add to-dos item(s) through the input field
-        </p>
-      </header>
-    )
-  }
+  }, [props.headerSpan]);
+  
+  return (
+    <header style={headerStyle}>
+      <h1 style={{ fontSize: "25px", marginBottom: "15px" }}>
+        Simple Todo App <span id="inH1"></span>
+      </h1>
+      <p style={{ fontSize: "19px" }}>
+        Please add to-dos item(s) through the input field
+      </p>
+    </header>
+  )
 }
 
 export default Header
