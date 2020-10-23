@@ -1,27 +1,34 @@
-import React from "react"
+import React, { Component } from "react"
 
-function TodoItem(props) {
-  const { todo, handleChange, handleDelete } = props;
-  const { id, completed, title } = todo
-  const completedStyle = {
-    fontStyle: "italic",
-    color: "#d35e0f",
-    opacity: 0.4,
-    textDecoration: "line-through",
+class TodoItem extends Component {
+
+  componentWillUnmount() {
+    alert("Item about to be deleted!");
   }
-  return (
-    <li className="todo-item">
-      <input 
-        type="checkbox" 
-        checked={completed}
-        onChange={() => handleChange(id)}
-      />
-      <button onClick={() => handleDelete(id)}>Delete</button>
-      <span style={completed ? completedStyle : null}>
-        {title} [{id.slice(0,8)}]
-      </span>
-    </li>
-  )
+
+  render() {
+    const { todo, handleChange, handleDelete } = this.props;
+    const { id, completed, title } = todo
+    const completedStyle = {
+      fontStyle: "italic",
+      color: "#d35e0f",
+      opacity: 0.4,
+      textDecoration: "line-through",
+    }
+    return (
+      <li className="todo-item">
+        <input 
+          type="checkbox" 
+          checked={completed}
+          onChange={() => handleChange(id)}
+        />
+        <button onClick={() => handleDelete(id)}>Delete</button>
+        <span style={completed ? completedStyle : null}>
+          {title} [{id}]
+        </span>
+      </li>
+    )
+  }
 }
 
 export default TodoItem
