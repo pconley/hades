@@ -1,0 +1,68 @@
+const hearts = [
+  require('../images/blue_back.png'),
+  require('../images/AH.png'),
+  require('../images/2H.png'),
+  require('../images/3H.png'),
+  require('../images/4H.png'),
+  require('../images/5H.png'),
+  require('../images/6H.png'),
+  require('../images/7H.png'),
+  require('../images/8H.png'),
+  require('../images/9H.png'),
+  require('../images/10H.png'),
+  require('../images/JH.png'),
+  require('../images/QH.png'),
+  require('../images/KH.png'),
+];
+const clubs = [
+  require('../images/green_back.png'),
+  require('../images/AC.png'),
+  require('../images/2C.png'),
+  require('../images/3C.png'),
+  require('../images/4C.png'),
+  require('../images/5C.png'),
+  require('../images/6C.png'),
+  require('../images/7C.png'),
+  require('../images/8C.png'),
+  require('../images/9C.png'),
+  require('../images/10C.png'),
+  require('../images/JC.png'),
+  require('../images/QC.png'),
+  require('../images/KC.png'),
+];
+const spades = [
+  require('../images/gray_back.png'),
+  require('../images/AS.png'),
+  require('../images/2S.png'),
+  require('../images/3S.png'),
+  require('../images/4S.png'),
+  require('../images/5S.png'),
+  require('../images/6S.png'),
+  require('../images/7S.png'),
+  require('../images/8S.png'),
+  require('../images/9S.png'),
+  require('../images/10S.png'),
+  require('../images/JS.png'),
+  require('../images/QS.png'),
+  require('../images/KS.png'),
+];
+const diamonds = [
+  require('../images/purple_back.png'),
+  require('../images/AD.png'),
+  require('../images/2D.png'),
+  require('../images/3D.png'),
+  require('../images/4D.png'),
+  require('../images/5D.png'),
+  require('../images/6D.png'),
+  require('../images/7D.png'),
+  require('../images/8D.png'),
+  require('../images/9D.png'),
+  require('../images/10D.png'),
+  require('../images/JD.png'),
+  require('../images/QD.png'),
+  require('../images/KD.png'),
+];
+
+const cards = { clubs, hearts, diamonds, spades };
+
+export default cards;

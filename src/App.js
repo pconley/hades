@@ -3,20 +3,19 @@ import { MemoryRouter, Switch, Route } from 'react-router-dom';
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import { Navbar, Nav, NavDropdown, Form, FormControl } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import './App.css';
 
 import Game from './game/game';
+import Home from './home';
+import About from './about';
 
 import TodoContainer from './components/TodoContainer';
 
 const page_helper = title => <h1 style={{ fontSize: "25px", marginBottom: "15px" }}>{title}</h1>
 
-const Home = () => page_helper("Home Page");
-const About = () => page_helper("About Page");
 const Users = () => page_helper("Users Page");;
 
 const App = () => (
