@@ -1,6 +1,6 @@
 import React from "react"
 import uuid from "uuid"
-import UserCard from './components/UserCard';
+import UserCard from './UserCard';
 
 const Users = props => {
  

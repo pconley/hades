@@ -1,9 +1,7 @@
-
 import axios from "axios"
-
 import React, { useEffect } from "react"
 
-const About = props => {
+const AboutPage = props => {
 
   const url = 'http://52.149.174.55:8000/';
 
@@ -16,9 +14,11 @@ const About = props => {
   return (
     <div>
       <h2 className="header">About</h2>
+      <ul>
+        <li>10-24a : added sample user cards</li>
+      </ul>
     </div>
   )
 }
 
-export default About
-
+export default AboutPage

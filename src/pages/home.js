@@ -1,6 +1,6 @@
 
 import React from "react"
-import Card from "./darn/card"
+import Card from "../darn/card"
 
 const suits = ['clubs', 'hearts', 'diamonds', 'spades'];
 

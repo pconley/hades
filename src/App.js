@@ -9,9 +9,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import './App.css';
 
 import Game from './game/game';
-import Home from './home';
-import Users from './users';
-import About from './about';
+import Home from './pages/home';
+import Users from './pages/users';
+import AboutPage from './pages/AboutPage';
+import PlayingCardsPage from './pages/PlayingCardsPage';
 
 import TodoContainer from './components/TodoContainer';
 
@@ -24,6 +25,7 @@ const App = () => (
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <LinkContainer to="/about"><Nav.Link >About</Nav.Link></LinkContainer>
+          <LinkContainer to="/cards"><Nav.Link >Cards</Nav.Link></LinkContainer>
           <LinkContainer to="/users"><Nav.Link >Users</Nav.Link></LinkContainer>
           <LinkContainer to="/game"><Nav.Link >Tic-Tac-Toe</Nav.Link></LinkContainer>
           <LinkContainer to="/todo"><Nav.Link >To Do</Nav.Link></LinkContainer>
@@ -49,8 +51,9 @@ const App = () => (
       <Switch>
         <Route path="/todo"><TodoContainer /></Route>
         <Route path="/game"><Game /></Route>
-        <Route path="/about"><About /></Route>
+        <Route path="/about"><AboutPage /></Route>
         <Route path="/users"><Users /></Route>
+        <Route path="/cards"><PlayingCardsPage /></Route>
         <Route path="/"><Home /></Route>
       </Switch>
 
