@@ -5,6 +5,9 @@ https://ibaslogic.com/react-http-request-and-lifecycle-methods/
 
 https://ibaslogic.com/react-hooks-tutorial/
 
+git push https://'pconley':'password'@ggithub.com/pconley/hades.git
+
+git push heroku master
 
 ## Available Scripts
 

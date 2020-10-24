@@ -10,13 +10,10 @@ import './App.css';
 
 import Game from './game/game';
 import Home from './home';
+import Users from './users';
 import About from './about';
 
 import TodoContainer from './components/TodoContainer';
-
-const page_helper = title => <h1 style={{ fontSize: "25px", marginBottom: "15px" }}>{title}</h1>
-
-const Users = () => page_helper("Users Page");;
 
 const App = () => (
   
