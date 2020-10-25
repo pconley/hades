@@ -1,0 +1,26 @@
+$table-width: 600px;
+$table-height: 400px;
+
+$card-width: 75px; // medium
+$card-height: 3.5 * $card-width / 2.5;
+
+.table-container {
+  width: $table-width;
+  height: $table-height;
+  position: relative;
+  background-color: darkolivegreen;
+}
+
+.table-center {
+  position: absolute;
+  top: $table-height / 2 - $card-height / 2;
+  left: $table-width / 2 - $card-width / 2;
+  // border: 3px solid #73AD21;
+}
+
+.table-home {
+  position: absolute;
+  bottom: 0;
+  left: $table-width / 2 - $card-width / 2;
+}
+

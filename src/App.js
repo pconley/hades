@@ -9,7 +9,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import './App.css';
 
 import Game from './game/game';
-import Home from './pages/home';
+import HomePage from './pages/HomePage';
 import Users from './pages/users';
 import AboutPage from './pages/AboutPage';
 import PlayingCardsPage from './pages/PlayingCardsPage';
@@ -54,7 +54,7 @@ const App = () => (
         <Route path="/about"><AboutPage /></Route>
         <Route path="/users"><Users /></Route>
         <Route path="/cards"><PlayingCardsPage /></Route>
-        <Route path="/"><Home /></Route>
+        <Route path="/"><HomePage /></Route>
       </Switch>
 
     </Container>
