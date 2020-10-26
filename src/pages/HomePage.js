@@ -1,5 +1,5 @@
 import React from "react"
-
+import { Animate } from 'react-move';
 import NumberPicker from 'react-widgets/lib/NumberPicker'
 // this import is not bringing in the expected styles????
 import 'react-widgets/dist/css/react-widgets.css';
@@ -15,6 +15,10 @@ class HomePage extends React.Component {
     this.state = { 
       count: 3,
       home: 10,
+      homePos: { 
+        top: this.tableHeight - this.cardHeight,
+        left: this.tableWidthCenter - this.cardWidth / 2
+      }
     }
   }
 
@@ -33,7 +37,11 @@ class HomePage extends React.Component {
 
   handleClick = () => {
     console.log("handle click");
-    this.setState({ ...this.state, home: this.tableHeightCenter - this.centerHeight / 2 - this.cardHeight });
+    const origin = this.tableHeight - this.cardHeight;
+    const newTop = this.state.homePos.top === origin ? this.tableHeightCenter : origin;
+    this.setState({ homePos: { top: newTop, left: 275 }});
+    console.log("handle click - after", origin, newTop);
+
   }
 
   moveTo = (n, m) => {
@@ -42,7 +50,9 @@ class HomePage extends React.Component {
 
   render() {
 
-    const { count, home } = this.state;
+    console.log("rendering");
+
+    const { count } = this.state;
 
     const position = (n, m) => {
       // calculate the position of player N of M at the table
@@ -60,8 +70,6 @@ class HomePage extends React.Component {
     };
 
     let playerNumbers = Array.from({length: count}, (_, i) => i + 1);
-
-    let homePosition = { bottom: home + 'px' };
 
     let centerPos = {
       position: "absolute",
@@ -85,12 +93,23 @@ class HomePage extends React.Component {
 
           <div style={centerPos}>center</div>
 
-          <div key="me" className="table-home" 
-            style={homePosition}
-            onClick={this.handleClick}
+          <Animate 
+            start = {this.state.homePos}
+            update = {{ ...this.state.homePos, transition: `top 0.5s, left 0.5s`}}
           >
-            <Card suit='hearts' value="13" size="small" />
-          </div>
+            {data => {
+              console.log("data", data, this.state.homePos);
+              return (
+                <div key="home" className="table-home" 
+                  style={{...data}}
+                  onClick={this.handleClick}
+                >
+                  <Card suit='hearts' value="13" size="small" />
+                </div>
+              )
+            }}
+
+          </Animate>
 
           {playerNumbers.map(n => {
             return (
