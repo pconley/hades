@@ -12,6 +12,7 @@ import Game from './game/game';
 import HomePage from './pages/HomePage';
 import Users from './pages/users';
 import AboutPage from './pages/AboutPage';
+import MotionPage from './pages/MotionPage';
 import PlayingCardsPage from './pages/PlayingCardsPage';
 
 import TodoContainer from './components/TodoContainer';
@@ -25,6 +26,7 @@ const App = () => (
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <LinkContainer to="/about"><Nav.Link >About</Nav.Link></LinkContainer>
+          <LinkContainer to="/motion"><Nav.Link >Motion</Nav.Link></LinkContainer>
           <LinkContainer to="/cards"><Nav.Link >Cards</Nav.Link></LinkContainer>
           <LinkContainer to="/users"><Nav.Link >Users</Nav.Link></LinkContainer>
           <LinkContainer to="/game"><Nav.Link >Tic-Tac-Toe</Nav.Link></LinkContainer>
@@ -52,6 +54,7 @@ const App = () => (
         <Route path="/todo"><TodoContainer /></Route>
         <Route path="/game"><Game /></Route>
         <Route path="/about"><AboutPage /></Route>
+        <Route path="/motion"><MotionPage /></Route>
         <Route path="/users"><Users /></Route>
         <Route path="/cards"><PlayingCardsPage /></Route>
         <Route path="/"><HomePage /></Route>
