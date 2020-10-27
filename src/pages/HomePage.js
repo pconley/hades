@@ -1,5 +1,5 @@
 import React from "react"
-import { Animate } from 'react-move';
+import { NodeGroup } from "react-move";
 import NumberPicker from 'react-widgets/lib/NumberPicker'
 // this import is not bringing in the expected styles????
 import 'react-widgets/dist/css/react-widgets.css';
@@ -9,18 +9,6 @@ import Card from "../darn/card"
 import "./HomePage.scss"
 
 class HomePage extends React.Component {
-
-  constructor(...args) {
-    super(...args)
-    this.state = { 
-      count: 3,
-      home: 10,
-      homePos: { 
-        top: this.tableHeight - this.cardHeight,
-        left: this.tableWidthCenter - this.cardWidth / 2
-      }
-    }
-  }
 
   cardWidth = 50;
   cardHeight = 3.5 * this.cardWidth / 2.5;
@@ -35,12 +23,36 @@ class HomePage extends React.Component {
   centerWidth = 180;
   centerHeight = 60;
 
-  handleClick = () => {
-    console.log("handle click");
-    const origin = this.tableHeight - this.cardHeight;
-    const newTop = this.state.homePos.top === origin ? this.tableHeightCenter : origin;
-    this.setState({ homePos: { top: newTop, left: 275 }});
-    console.log("handle click - after", origin, newTop);
+  homeStartingTop = this.tableHeight - this.cardHeight - 2 * this.tableMargin;
+
+  constructor(...args) {
+    super(...args)
+    const cardCount = 3;
+    this.state = { 
+      count: 3,
+      home: 10,
+      homePos: { 
+        top: this.tableHeight - this.cardHeight,
+        left: this.tableWidthCenter - this.cardWidth / 2
+      },
+      cards: [...Array(cardCount).keys()].map(n =>
+        ({ id: 100*(n+1), suit: "spades", value: 10+n, top: this.homeStartingTop, left: 240 + n*40 }),
+      )
+    }
+  }
+
+
+
+  handleClick = (info) => {
+    console.log("*** handle click info =", info);
+    console.log("    state.cards =", this.state.cards);
+    const { n } = info;
+    const cards = this.state.cards;
+    const card = this.state.cards[n];
+    const newTop = card.top === this.homeStartingTop ? 200 : this.homeStartingTop;
+    cards[n].top = newTop;
+    this.setState({ cards });
+    console.log("handle click - after", newTop);
 
   }
 
@@ -69,6 +81,7 @@ class HomePage extends React.Component {
       }
     };
 
+
     let playerNumbers = Array.from({length: count}, (_, i) => i + 1);
 
     let centerPos = {
@@ -80,7 +93,10 @@ class HomePage extends React.Component {
       border: "1px solid #73AD21",
     }
 
+    const speed = 0.5;
+
     return (
+
       <div>
         <h2 className="header">Table Layout Experiment</h2>
         <p>The cards are just placholders to explore positioning stuff at the edges and center of the green table.</p>
@@ -93,23 +109,39 @@ class HomePage extends React.Component {
 
           <div style={centerPos}>center</div>
 
-          <Animate 
-            start = {this.state.homePos}
-            update = {{ ...this.state.homePos, transition: `top 0.5s, left 0.5s`}}
-          >
-            {data => {
-              console.log("data", data, this.state.homePos);
-              return (
-                <div key="home" className="table-home" 
-                  style={{...data}}
-                  onClick={this.handleClick}
-                >
-                  <Card suit='hearts' value="13" size="small" />
-                </div>
-              )
+          <NodeGroup
+            data={this.state.cards}
+            keyAccessor={d => `item-key-${d.id}`}
+            start={d => {
+              const n = this.state.cards.indexOf(d);
+              console.log("start", d, n);
+              return { n, top: 200, left: 200 + 40 * n};
             }}
+            update={d => {
+              const n = this.state.cards.indexOf(d);
+              console.log("update", d, n);
+              return { n, top: 300, left: 200 + 40 * n};
+            }}
+          >
+            {nodes => (
+              <div className="list">
+                {nodes.map(({ key, data, state }) => {
+                  console.log("--- map", key);  
+                  console.log("    data", data);  
+                  console.log("    state", state);  
+                  return (
+                    <div key={key} className="table-home" 
+                      style={{...data, transition: `top ${speed}s, left ${speed}s`}}
+                      onClick={() => this.handleClick(state)}
+                    >
+                      <Card suit={data.suit} value={data.value} size="small" />
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </NodeGroup>
 
-          </Animate>
 
           {playerNumbers.map(n => {
             return (
