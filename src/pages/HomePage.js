@@ -29,19 +29,12 @@ class HomePage extends React.Component {
     super(...args)
     const cardCount = 3;
     this.state = { 
-      count: 3,
-      home: 10,
-      homePos: { 
-        top: this.tableHeight - this.cardHeight,
-        left: this.tableWidthCenter - this.cardWidth / 2
-      },
+      otherPlayersCount: 3,
       cards: [...Array(cardCount).keys()].map(n =>
         ({ id: 100*(n+1), suit: "spades", value: 10+n, top: this.homeStartingTop, left: 240 + n*40 }),
       )
     }
   }
-
-
 
   handleClick = (info) => {
     console.log("*** handle click info =", info);
@@ -64,7 +57,7 @@ class HomePage extends React.Component {
 
     console.log("rendering");
 
-    const { count } = this.state;
+    const { otherPlayersCount } = this.state;
 
     const position = (n, m) => {
       // calculate the position of player N of M at the table
@@ -82,7 +75,7 @@ class HomePage extends React.Component {
     };
 
 
-    let playerNumbers = Array.from({length: count}, (_, i) => i + 1);
+    let playerNumbers = Array.from({length: otherPlayersCount}, (_, i) => i + 1);
 
     let centerPos = {
       position: "absolute",
@@ -102,8 +95,8 @@ class HomePage extends React.Component {
         <p>The cards are just placholders to explore positioning stuff at the edges and center of the green table.</p>
         Select 3 to 7 Other Players : <NumberPicker
           max={7} min={3}
-          value={count}
-          onChange={value => this.setState({ count: value })}
+          value={otherPlayersCount}
+          onChange={value => this.setState({ otherPlayersCount: value })}
         />
         <div className="border table-container" style={{width: this.tableWidth, height: this.tableHeight}}>
 
@@ -126,9 +119,9 @@ class HomePage extends React.Component {
             {nodes => (
               <div className="list">
                 {nodes.map(({ key, data, state }) => {
-                  console.log("--- map", key);  
-                  console.log("    data", data);  
-                  console.log("    state", state);  
+                  // console.log("--- map", key);  
+                  // console.log("    data", data);  
+                  // console.log("    state", state);  
                   return (
                     <div key={key} className="table-home" 
                       style={{...data, transition: `top ${speed}s, left ${speed}s`}}
@@ -146,8 +139,8 @@ class HomePage extends React.Component {
           {playerNumbers.map(n => {
             return (
               <div key={n+2} 
-                style={position(n, count)} 
-                onClick={() => this.moveTo(n, count)}
+                style={position(n, otherPlayersCount)} 
+                onClick={() => this.moveTo(n, otherPlayersCount)}
               >
                 <Card suit='clubs' value={n+2} size={this.cardWidth} />
               </div>
@@ -155,7 +148,7 @@ class HomePage extends React.Component {
           })}
 
           <div className="content left-content">
-            There are {count} players.
+            There are {otherPlayersCount+1} players.
           </div>
 
           <div className="content right-content">

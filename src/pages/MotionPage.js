@@ -14,9 +14,27 @@ class MotionPage extends React.Component {
     }
   }
 
-  move = (x) => { this.setState({ top: this.state.top+x, left: this.state.left+x })}
+  move = (x) => { 
+    this.setState({ top: this.state.top+x, left: this.state.left+x })
+  }
 
   render() {
+
+    // Create WebSocket connection
+    var wsUri = "ws://ppe-cardgameserver.southcentralus.azurecontainer.io:9001/12/Pat";
+    // var wsUri = 'ws://127.0.0.1:1337';
+    const socket = new WebSocket(wsUri);
+  
+    // Connection opened
+    socket.addEventListener('open', function (event) {
+      console.log("connected");
+      socket.send('Hello Server!');
+    });
+
+    // Listen for messages
+    socket.addEventListener('message', function (event) {
+      console.log('Message from server ', event.data);
+    });
 
     const speed = 0.5;
 
