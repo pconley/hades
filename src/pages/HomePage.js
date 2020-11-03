@@ -17,7 +17,7 @@ class HomePage extends React.Component {
   tableWidth = 600;
   tableWidthCenter = this.tableWidth / 2;
 
-  tableHeight = 2 * this.tableWidth / 3;
+  tableHeight = 2.5 * this.tableWidth / 3;
   tableHeightCenter = this.tableHeight / 2;
 
   centerWidth = 180;
@@ -27,26 +27,23 @@ class HomePage extends React.Component {
 
   constructor(...args) {
     super(...args)
-    const cardCount = 3;
+    const cardCount = 5;
     this.state = { 
       otherPlayersCount: 3,
       cards: [...Array(cardCount).keys()].map(n =>
-        ({ id: 100*(n+1), suit: "spades", value: 10+n, top: this.homeStartingTop, left: 240 + n*40 }),
+        ({ id: n, suit: "spades", value: 8+n, place: 0 }),
       )
     }
   }
 
-  handleClick = (info) => {
-    console.log("*** handle click info =", info);
-    console.log("    state.cards =", this.state.cards);
-    const { n } = info;
+  handleClick = (card) => {
+    console.log("*** CLICK =", card.value, card.place);
     const cards = this.state.cards;
-    const card = this.state.cards[n];
-    const newTop = card.top === this.homeStartingTop ? 200 : this.homeStartingTop;
-    cards[n].top = newTop;
+    const n = cards.indexOf(card);
+    const newPlace = (card.place+1) % 3;
+    cards[n].place = newPlace;
     this.setState({ cards });
-    console.log("handle click - after", newTop);
-
+    console.log("handle click - new place", newPlace);
   }
 
   moveTo = (n, m) => {
@@ -55,11 +52,9 @@ class HomePage extends React.Component {
 
   render() {
 
-    console.log("rendering");
-
     const { otherPlayersCount } = this.state;
 
-    const position = (n, m) => {
+    const playerPosition = (n, m) => {
       // calculate the position of player N of M at the table
       const leftPos = (top, left) => ({ position: 'absolute', top: top + 'px', left: left + 'px'});
       const rightPos = (top, right) => ({ position: 'absolute', top: top + 'px', right: right + 'px'});
@@ -74,6 +69,26 @@ class HomePage extends React.Component {
       }
     };
 
+    const calcCardPosition = (card) => {
+      if (card.place === 2) {
+        return {top: -140, left: 20, angle: 10};
+      }
+
+      const n = this.state.cards.indexOf(card);
+
+      let angle = 0;
+      let top = [0, -20][card.place];
+      let left = [0, 6][card.place];
+
+      for( let i=0; i<n; i++ ){
+        const s = 3*Math.sin(angle/180);
+        const c = 3*Math.cos(angle/180);
+        top += Math.round(s - c);
+        left += Math.round(s + c);
+        angle += 7; // degrees
+      }
+      return {left, top, angle};
+    }
 
     let playerNumbers = Array.from({length: otherPlayersCount}, (_, i) => i + 1);
 
@@ -86,7 +101,17 @@ class HomePage extends React.Component {
       border: "1px solid #73AD21",
     }
 
-    const speed = 0.5;
+    const cardStyle = (card) => {
+      const speed = 0.1;
+      const {left, top, angle} = calcCardPosition(card);
+      if( card.value === 10 ) console.log("place, angle", card.place, angle);
+      return { 
+        top, left,
+        transformOrigin: 'bottom left',
+        transform: `rotate(${angle}deg)`,
+        transition: `top ${speed}s, left ${speed}s`
+      };
+    }
 
     return (
 
@@ -102,47 +127,38 @@ class HomePage extends React.Component {
 
           <div style={centerPos}>center</div>
 
-          <NodeGroup
-            data={this.state.cards}
-            keyAccessor={d => `item-key-${d.id}`}
-            start={d => {
-              const n = this.state.cards.indexOf(d);
-              console.log("start", d, n);
-              return { n, top: 200, left: 200 + 40 * n};
-            }}
-            update={d => {
-              const n = this.state.cards.indexOf(d);
-              console.log("update", d, n);
-              return { n, top: 300, left: 200 + 40 * n};
-            }}
-          >
-            {nodes => (
-              <div className="list">
-                {nodes.map(({ key, data, state }) => {
-                  // console.log("--- map", key);  
-                  // console.log("    data", data);  
-                  // console.log("    state", state);  
-                  return (
-                    <div key={key} className="table-home" 
-                      style={{...data, transition: `top ${speed}s, left ${speed}s`}}
-                      onClick={() => this.handleClick(state)}
-                    >
-                      <Card suit={data.suit} value={data.value} size="small" />
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </NodeGroup>
-
+          <div className="play-area">
+              <NodeGroup
+                data={this.state.cards}
+                keyAccessor={data => `item-key-${data.id}`}
+                start={data => ({...cardStyle(data)})}
+                update={data => ({...cardStyle(data), transition: `top 0.5s, left 0.5s`})}
+              >
+                {nodes => (
+                  <div className="hand">
+                    {nodes.map(({ key, data, state }) => {
+                      // console.log("*** map", key);
+                      // console.log("data", data);
+                      // console.log("state", state);
+                      // console.log("style", cardStyle(data));
+                      const style = cardStyle(data);
+                      return (
+                        <div key={key} className="card-holder" style={{...style}}>
+                          <Card size="small" 
+                            suit={data.suit} value={data.value}
+                            onClick={() => this.handleClick(data)}/>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </NodeGroup>
+          </div>
 
           {playerNumbers.map(n => {
             return (
-              <div key={n+2} 
-                style={position(n, otherPlayersCount)} 
-                onClick={() => this.moveTo(n, otherPlayersCount)}
-              >
-                <Card suit='clubs' value={n+2} size={this.cardWidth} />
+              <div key={n+2} style={playerPosition(n, otherPlayersCount)} >
+                <Card suit='clubs' value={n+2} size={this.cardWidth} onClick={() => this.moveTo(n, otherPlayersCount)} />
               </div>
             )
           })}
